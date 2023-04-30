@@ -31,6 +31,7 @@ class TopicService(
     fun save(topicDto: SaveTopicRequestForm) {
         val topic = topicFormMapper.map(topicDto)
         topic.id = topicList.size.toLong() + 1
+
         topicList = topicList.plus(topic)
     }
 }
