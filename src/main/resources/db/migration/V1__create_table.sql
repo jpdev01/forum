@@ -1,6 +1,6 @@
 create table course
 (
-    id       bigint not null,
+    id       bigint not null auto_increment,
     name     varchar(50),
     category varchar(50),
     primary key (id)
@@ -10,7 +10,7 @@ insert into course(id, name, category) values(1, 'Kotlin', 'Programacao');
 
 create table user
 (
-    id    bigint not null,
+    id    bigint not null auto_increment,
     name  varchar(50),
     email varchar(50),
     primary key (id)
@@ -20,7 +20,7 @@ insert into user(id, name, email) values(1, 'Ana', 'ana@gmail.com');
 
 create table topic
 (
-    id bigint not null,
+    id bigint not null auto_increment,
     title varchar(50) not null,
     message varchar(300),
     date_created datetime not null,
@@ -35,7 +35,7 @@ create table topic
 
 create table answer
 (
-    id bigint not null,
+    id bigint not null auto_increment,
     message varchar(300),
     date_created datetime not null,
     topic_id bigint not null,
