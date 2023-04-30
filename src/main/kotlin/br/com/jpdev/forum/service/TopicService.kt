@@ -29,11 +29,12 @@ class TopicService(
         return topicViewMapper.map(topic)
     }
 
-    fun save(topicDto: SaveTopicRequestForm) {
+    fun save(topicDto: SaveTopicRequestForm): TopicView {
         val topic = topicFormMapper.map(topicDto)
         topic.id = topicList.size.toLong() + 1
 
         topicList = topicList.plus(topic)
+        return topicViewMapper.map(topic)
     }
 
     fun update(form: UpdateTopicRequestForm) {
