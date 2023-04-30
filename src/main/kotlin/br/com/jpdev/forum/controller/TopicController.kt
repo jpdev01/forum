@@ -2,6 +2,7 @@ package br.com.jpdev.forum.controller
 
 import br.com.jpdev.forum.dto.SaveTopicRequestForm
 import br.com.jpdev.forum.dto.TopicView
+import br.com.jpdev.forum.dto.UpdateTopicRequestForm
 import br.com.jpdev.forum.service.TopicService
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -25,5 +26,10 @@ class TopicController(
     @PostMapping
     fun save(@RequestBody @Valid topic: SaveTopicRequestForm) {
         topicService.save(topic)
+    }
+
+    @PutMapping
+    fun update(@RequestBody @Valid form: UpdateTopicRequestForm) {
+        topicService.update(form)
     }
 }
