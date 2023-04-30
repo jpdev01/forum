@@ -1,69 +1,16 @@
 package br.com.jpdev.forum.service
 
-import br.com.jpdev.forum.model.Course
+import br.com.jpdev.forum.dto.SaveTopicDTO
 import br.com.jpdev.forum.model.Topic
-import br.com.jpdev.forum.model.User
 import org.springframework.stereotype.Service
-import java.util.*
+import kotlin.collections.ArrayList
 
 @Service
 class TopicService(
-        private var topicList: List<Topic>
+        private var topicList: List<Topic> = ArrayList(),
+        private val courseService: CourseService,
+        private val userService: UserService
 ) {
-
-    init {
-        topicList = Arrays.asList(
-                Topic(
-                        id = 1,
-                        title = "Dúvida Kotlin",
-                        message = "Variaveis",
-                        course = Course(
-                                id = 1,
-                                name = "Kotlin",
-                                category = "Programação"
-                        ),
-                        author = User(
-                                id = 1,
-                                name = "Ana",
-                                email = "ana@gmail.com"
-                        )
-                ),
-                Topic(
-                        id = 1,
-                        title = "Dúvida Kotlin",
-                        message = "Variaveis",
-                        course = Course(
-                                id = 1,
-                                name = "Kotlin",
-                                category = "Programação"
-                        ),
-                        author = User(
-                                id = 1,
-                                name = "Ana",
-                                email = "ana@gmail.com"
-                        )
-                )
-        )
-    }
-    fun save(): Topic {
-        val topic = Topic(
-                id=1,
-                title = "Dúvida Kotlin",
-                message = "Variaveis",
-                course = Course(
-                        id = 1,
-                        name = "Kotlin",
-                        category = "Programação"
-                ),
-                author = User(
-                        id = 1,
-                        name = "Ana",
-                        email = "ana@gmail.com"
-                )
-        )
-
-        return topic
-    }
 
     fun list() : List<Topic> {
         return topicList
@@ -73,5 +20,16 @@ class TopicService(
         return topicList.stream().filter({
             it.id == id
         }).findFirst().get()
+    }
+
+    fun save(topicDto: SaveTopicDTO) {
+        var topic = Topic(
+                id = topicList.size.toLong() + 1,
+                title = topicDto.title,
+                message = topicDto.message,
+                course = courseService.find(topicDto.courseId),
+                author = userService.find(topicDto.authorId)
+        )
+        topicList = topicList.plus(topic)
     }
 }
