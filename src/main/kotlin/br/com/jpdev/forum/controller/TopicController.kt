@@ -4,6 +4,8 @@ import br.com.jpdev.forum.dto.SaveTopicRequestForm
 import br.com.jpdev.forum.dto.TopicView
 import br.com.jpdev.forum.dto.UpdateTopicRequestForm
 import br.com.jpdev.forum.service.TopicService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.transaction.annotation.Transactional
@@ -18,8 +20,11 @@ class TopicController(
 ) {
 
     @GetMapping
-    fun list(@RequestParam(required = false) courseName: String?): List<TopicView> {
-        return topicService.list(courseName)
+    fun list(
+            @RequestParam(required = false) courseName: String?,
+            pageable: Pageable
+    ): Page<TopicView> {
+        return topicService.list(courseName, pageable)
     }
 
     @GetMapping("/{id}")

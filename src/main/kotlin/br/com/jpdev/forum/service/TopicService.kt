@@ -6,11 +6,10 @@ import br.com.jpdev.forum.dto.UpdateTopicRequestForm
 import br.com.jpdev.forum.exception.NotFoundException
 import br.com.jpdev.forum.mapper.TopicFormMapper
 import br.com.jpdev.forum.mapper.TopicViewMapper
-import br.com.jpdev.forum.model.Topic
 import br.com.jpdev.forum.repository.TopicRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.util.stream.Collectors
-import kotlin.collections.ArrayList
 
 @Service
 class TopicService(
@@ -20,13 +19,13 @@ class TopicService(
         private val notFoundMessage: String = "Topico não encontrado"
 ) {
 
-    fun list(courseName: String?) : List<TopicView> {
+    fun list(courseName: String?, pageable: Pageable) : Page<TopicView> {
         var topicList = if (courseName == null) {
-            topicRepository.findAll()
+            topicRepository.findAll(pageable)
         } else {
-            topicRepository.findByCourseName(courseName)
+            topicRepository.findByCourseName(courseName, pageable)
         }
-        return topicList.stream().map { topicViewMapper.map(it) }.collect(Collectors.toList())
+        return topicList.map { topicViewMapper.map(it) }
     }
 
     fun findById(id: Long): TopicView {
