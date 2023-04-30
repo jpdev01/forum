@@ -4,6 +4,7 @@ import br.com.jpdev.forum.dto.SaveTopicRequestForm
 import br.com.jpdev.forum.dto.TopicView
 import br.com.jpdev.forum.dto.UpdateTopicRequestForm
 import br.com.jpdev.forum.service.TopicService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
@@ -39,11 +40,14 @@ class TopicController(
     }
 
     @PutMapping
-    fun update(@RequestBody @Valid form: UpdateTopicRequestForm) {
-        topicService.update(form)
+    fun update(@RequestBody @Valid form: UpdateTopicRequestForm): ResponseEntity<TopicView> {
+        var updatedTopicView = topicService.update(form)
+
+        return ResponseEntity.ok(updatedTopicView)
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Long) {
         topicService.delete(id)
     }

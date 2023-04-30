@@ -37,10 +37,10 @@ class TopicService(
         return topicViewMapper.map(topic)
     }
 
-    fun update(form: UpdateTopicRequestForm) {
+    fun update(form: UpdateTopicRequestForm): TopicView {
         val topic = topicList.stream().filter { it.id == form.id }.findFirst().get()
 
-        topicList =  topicList.minus(topic).plus(Topic(
+        var updatedTopic = Topic(
                 id = form.id,
                 title = form.title,
                 message = form.message,
@@ -49,7 +49,10 @@ class TopicService(
                 answerList = topic.answerList,
                 status = topic.status,
                 dateCreated = topic.dateCreated
-        ))
+        )
+        topicList =  topicList.minus(topic).plus(updatedTopic)
+
+        return topicViewMapper.map(updatedTopic)
     }
 
     fun delete(id: Long) {
