@@ -3,6 +3,7 @@ package br.com.jpdev.forum.service
 import br.com.jpdev.forum.dto.SaveTopicRequestForm
 import br.com.jpdev.forum.dto.TopicView
 import br.com.jpdev.forum.dto.UpdateTopicRequestForm
+import br.com.jpdev.forum.exception.NotFoundException
 import br.com.jpdev.forum.mapper.TopicFormMapper
 import br.com.jpdev.forum.mapper.TopicViewMapper
 import br.com.jpdev.forum.model.Topic
@@ -14,7 +15,8 @@ import kotlin.collections.ArrayList
 class TopicService(
         private var topicList: List<Topic> = ArrayList(),
         private val topicViewMapper: TopicViewMapper,
-        private val topicFormMapper: TopicFormMapper
+        private val topicFormMapper: TopicFormMapper,
+        private val notFoundMessage: String = "Topico não encontrado"
 ) {
 
     fun list() : List<TopicView> {
@@ -38,7 +40,9 @@ class TopicService(
     }
 
     fun update(form: UpdateTopicRequestForm): TopicView {
-        val topic = topicList.stream().filter { it.id == form.id }.findFirst().get()
+        val topic = topicList.stream().filter { it.id == form.id }
+                .findFirst()
+                .orElseThrow { NotFoundException(notFoundMessage) }
 
         var updatedTopic = Topic(
                 id = form.id,
@@ -56,7 +60,9 @@ class TopicService(
     }
 
     fun delete(id: Long) {
-        val topic = topicList.stream().filter { it.id == id }.findFirst().get()
+        val topic = topicList.stream().filter { it.id == id }
+                .findFirst()
+                .orElseThrow { NotFoundException(notFoundMessage) }
         topicList = topicList.minus(topic)
     }
 }
