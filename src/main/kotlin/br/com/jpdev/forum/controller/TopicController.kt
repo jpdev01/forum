@@ -1,12 +1,9 @@
 package br.com.jpdev.forum.controller
 
 import br.com.jpdev.forum.dto.SaveTopicDTO
-import br.com.jpdev.forum.model.Course
 import br.com.jpdev.forum.model.Topic
-import br.com.jpdev.forum.model.User
 import br.com.jpdev.forum.service.TopicService
 import org.springframework.web.bind.annotation.*
-import java.util.Arrays
 
 @RestController
 @RequestMapping("/topics")

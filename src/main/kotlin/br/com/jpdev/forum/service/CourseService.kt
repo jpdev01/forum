@@ -3,7 +3,6 @@ package br.com.jpdev.forum.service
 import br.com.jpdev.forum.model.Course
 import org.springframework.stereotype.Service
 import java.util.*
-import kotlin.collections.ArrayList
 
 @Service
 class CourseService(
