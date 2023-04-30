@@ -13,6 +13,6 @@ class UserService(
 ) {
 
     fun find(id: Long): User {
-        return userRepository.getReferenceById(id)
+        return userRepository.findById(id).get()
     }
 }
