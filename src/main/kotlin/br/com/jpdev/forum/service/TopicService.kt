@@ -2,6 +2,7 @@ package br.com.jpdev.forum.service
 
 import br.com.jpdev.forum.dto.SaveTopicRequestForm
 import br.com.jpdev.forum.dto.TopicView
+import br.com.jpdev.forum.mapper.TopicFormMapper
 import br.com.jpdev.forum.mapper.TopicViewMapper
 import br.com.jpdev.forum.model.Topic
 import org.springframework.stereotype.Service
@@ -11,9 +12,8 @@ import kotlin.collections.ArrayList
 @Service
 class TopicService(
         private var topicList: List<Topic> = ArrayList(),
-        private val courseService: CourseService,
-        private val userService: UserService,
-        private val topicViewMapper: TopicViewMapper
+        private val topicViewMapper: TopicViewMapper,
+        private val topicFormMapper: TopicFormMapper
 ) {
 
     fun list() : List<TopicView> {
@@ -29,13 +29,8 @@ class TopicService(
     }
 
     fun save(topicDto: SaveTopicRequestForm) {
-        var topic = Topic(
-                id = topicList.size.toLong() + 1,
-                title = topicDto.title,
-                message = topicDto.message,
-                course = courseService.find(topicDto.courseId),
-                author = userService.find(topicDto.authorId)
-        )
+        val topic = topicFormMapper.map(topicDto)
+        topic.id = topicList.size.toLong() + 1
         topicList = topicList.plus(topic)
     }
 }
