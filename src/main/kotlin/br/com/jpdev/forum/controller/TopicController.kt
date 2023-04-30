@@ -6,6 +6,7 @@ import br.com.jpdev.forum.dto.UpdateTopicRequestForm
 import br.com.jpdev.forum.service.TopicService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 import javax.validation.Valid
@@ -27,6 +28,7 @@ class TopicController(
     }
 
     @PostMapping
+    @Transactional
     fun save(
             @RequestBody @Valid topic: SaveTopicRequestForm,
             uriBuilder: UriComponentsBuilder
@@ -40,6 +42,7 @@ class TopicController(
     }
 
     @PutMapping
+    @Transactional
     fun update(@RequestBody @Valid form: UpdateTopicRequestForm): ResponseEntity<TopicView> {
         var updatedTopicView = topicService.update(form)
 
@@ -48,6 +51,7 @@ class TopicController(
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     fun delete(@PathVariable id: Long) {
         topicService.delete(id)
     }

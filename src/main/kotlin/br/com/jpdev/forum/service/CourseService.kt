@@ -1,27 +1,16 @@
 package br.com.jpdev.forum.service
 
 import br.com.jpdev.forum.model.Course
+import br.com.jpdev.forum.repository.CourseRepository
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class CourseService(
-        private var courseList: List<Course>
+        private val courseRepository: CourseRepository
 ) {
 
-    init {
-        courseList = Arrays.asList(
-                Course(
-                        id = 1,
-                        name = "Kotlin",
-                        category = "Programação"
-                )
-        )
-    }
-
     fun find(id: Long): Course {
-        return courseList.stream().filter({
-            it.id == id
-        }).findFirst().get()
+        return courseRepository.findById(id).get()
     }
 }
