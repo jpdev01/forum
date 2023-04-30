@@ -2,6 +2,7 @@ package br.com.jpdev.forum.service
 
 import br.com.jpdev.forum.dto.SaveTopicRequestForm
 import br.com.jpdev.forum.dto.TopicView
+import br.com.jpdev.forum.mapper.TopicViewMapper
 import br.com.jpdev.forum.model.Topic
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
@@ -11,19 +12,12 @@ import kotlin.collections.ArrayList
 class TopicService(
         private var topicList: List<Topic> = ArrayList(),
         private val courseService: CourseService,
-        private val userService: UserService
+        private val userService: UserService,
+        private val topicViewMapper: TopicViewMapper
 ) {
 
     fun list() : List<TopicView> {
-        return topicList.stream().map { topic ->
-            TopicView(
-                    id = topic.id,
-                    title = topic.title,
-                    message = topic.message,
-                    dateCreated = topic.dateCreated,
-                    status = topic.status
-            )
-        }.collect(Collectors.toList())
+        return topicList.stream().map { topicViewMapper.map(it) }.collect(Collectors.toList())
     }
 
     fun findById(id: Long): TopicView {
@@ -31,13 +25,7 @@ class TopicService(
             it.id == id
         }).findFirst().get()
 
-        return TopicView(
-                id = topic.id,
-                title = topic.title,
-                message = topic.message,
-                dateCreated = topic.dateCreated,
-                status = topic.status
-        )
+        return topicViewMapper.map(topic)
     }
 
     fun save(topicDto: SaveTopicRequestForm) {
