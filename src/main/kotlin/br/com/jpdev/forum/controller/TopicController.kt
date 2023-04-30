@@ -32,4 +32,9 @@ class TopicController(
     fun update(@RequestBody @Valid form: UpdateTopicRequestForm) {
         topicService.update(form)
     }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long) {
+        topicService.delete(id)
+    }
 }
