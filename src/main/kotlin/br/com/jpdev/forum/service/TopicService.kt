@@ -11,13 +11,15 @@ import br.com.jpdev.forum.repository.TopicRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import javax.persistence.EntityManager
 
 @Service
 class TopicService(
         private val topicRepository: TopicRepository,
         private val topicViewMapper: TopicViewMapper,
         private val topicFormMapper: TopicFormMapper,
-        private val notFoundMessage: String = "Topico não encontrado"
+        private val notFoundMessage: String = "Topico não encontrado",
+        private val entityManager: EntityManager // só pra mostrar q pode
 ) {
 
     fun list(courseName: String?, pageable: Pageable) : Page<TopicView> {
