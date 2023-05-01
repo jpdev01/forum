@@ -4,6 +4,8 @@ import br.com.jpdev.forum.dto.SaveTopicRequestForm
 import br.com.jpdev.forum.dto.TopicView
 import br.com.jpdev.forum.dto.UpdateTopicRequestForm
 import br.com.jpdev.forum.service.TopicService
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -22,6 +24,7 @@ class TopicController(
 ) {
 
     @GetMapping
+    @Cacheable("topics")
     fun list(
             @RequestParam(required = false) courseName: String?,
             @PageableDefault(size = 10, sort = ["title"], direction = Sort.Direction.ASC) pageable: Pageable
@@ -36,6 +39,7 @@ class TopicController(
 
     @PostMapping
     @Transactional
+    @CacheEvict(value = ["topics"], allEntries = true)
     fun save(
             @RequestBody @Valid topic: SaveTopicRequestForm,
             uriBuilder: UriComponentsBuilder
@@ -50,6 +54,7 @@ class TopicController(
 
     @PutMapping
     @Transactional
+    @CacheEvict(value = ["topics"], allEntries = true)
     fun update(@RequestBody @Valid form: UpdateTopicRequestForm): ResponseEntity<TopicView> {
         var updatedTopicView = topicService.update(form)
 
@@ -59,6 +64,7 @@ class TopicController(
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
+    @CacheEvict(value = ["topics"], allEntries = true)
     fun delete(@PathVariable id: Long) {
         topicService.delete(id)
     }
