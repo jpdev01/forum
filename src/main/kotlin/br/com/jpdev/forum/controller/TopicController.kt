@@ -6,6 +6,7 @@ import br.com.jpdev.forum.dto.UpdateTopicRequestForm
 import br.com.jpdev.forum.service.TopicService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,7 +24,7 @@ class TopicController(
     @GetMapping
     fun list(
             @RequestParam(required = false) courseName: String?,
-            @PageableDefault(size=10) pageable: Pageable
+            @PageableDefault(size = 10, sort = ["title"], direction = Sort.Direction.ASC) pageable: Pageable
     ): Page<TopicView> {
         return topicService.list(courseName, pageable)
     }
