@@ -1,6 +1,7 @@
 package br.com.jpdev.forum.controller
 
 import br.com.jpdev.forum.dto.SaveTopicRequestForm
+import br.com.jpdev.forum.dto.TopicPerCategoryDTO
 import br.com.jpdev.forum.dto.TopicView
 import br.com.jpdev.forum.dto.UpdateTopicRequestForm
 import br.com.jpdev.forum.service.TopicService
@@ -67,5 +68,10 @@ class TopicController(
     @CacheEvict(value = ["topics"], allEntries = true)
     fun delete(@PathVariable id: Long) {
         topicService.delete(id)
+    }
+
+    @GetMapping("/export")
+    fun report(): List<TopicPerCategoryDTO> {
+        return topicService.report()
     }
 }

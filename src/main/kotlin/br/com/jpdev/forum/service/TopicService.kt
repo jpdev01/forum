@@ -1,6 +1,7 @@
 package br.com.jpdev.forum.service
 
 import br.com.jpdev.forum.dto.SaveTopicRequestForm
+import br.com.jpdev.forum.dto.TopicPerCategoryDTO
 import br.com.jpdev.forum.dto.TopicView
 import br.com.jpdev.forum.dto.UpdateTopicRequestForm
 import br.com.jpdev.forum.exception.NotFoundException
@@ -55,5 +56,9 @@ class TopicService(
 
     fun delete(id: Long) {
         topicRepository.deleteById(id)
+    }
+
+    fun report(): List<TopicPerCategoryDTO> {
+        return topicRepository.report()
     }
 }
