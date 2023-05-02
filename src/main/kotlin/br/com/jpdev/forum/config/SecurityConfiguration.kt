@@ -17,9 +17,11 @@ class SecurityConfiguration(
     ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(web: HttpSecurity?) {
-        http?.authorizeRequests()?.anyRequest()?.authenticated()?. // qualquer requisição precisa estar autenticada
-        and()?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)?. // Nao quero que minha app nao guarde estado de autenticação
-        and()?.formLogin()?.disable()?.httpBasic() // sem tela de login
+        http?.authorizeRequests()?.
+                antMatchers("/topics")?.hasAuthority("READ_WRITE")?.
+                anyRequest()?.authenticated()?. // qualquer requisição precisa estar autenticada
+                and()?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)?. // Nao quero que minha app nao guarde estado de autenticação
+                and()?.formLogin()?.disable()?.httpBasic() // sem tela de login
     }
 
     @Bean // para ser gerenciado pelo Spring
