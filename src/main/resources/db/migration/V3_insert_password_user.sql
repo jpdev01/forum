@@ -1,1 +1,0 @@
-update user set password='$2a$12$NCGY1Rq2Jylf78JHowRkletzp9okjd0a2unCkxvMznbQuNWYXa9gy' where id=1;
