@@ -13,6 +13,7 @@ class JwtUtil {
 
     @Value("\${jwt.secret}")
     private lateinit var secret: String // só vai inicializar quando chamar a primeira vez
+
     fun generateToken(username: String): String? {
         return Jwts.builder()
                 .setSubject(username) // identificar o cliente
