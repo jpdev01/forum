@@ -3,6 +3,10 @@
 - Spring Data JPA
 - Flyway como ferramenta de migrations
 - Cache do Spring para melhorar a performance de consultas (no endpoint)
+- spring-security para trabalhar com autenticação e autorização de usuários
+- Autenticação com JWT
+- Conteineriza a aplicação
+- Sobe usando heroku
 
 ### Para subir via docker
 #### 1- Fazer build da imagem
